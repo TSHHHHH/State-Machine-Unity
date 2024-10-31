@@ -78,6 +78,15 @@
             "id": "a127aa2c-9db8-4594-8036-2cc612f65c69",
             "actions": [
                 {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "3ec5c7d3-20db-42f9-81eb-ad835e34eb87",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Shoot",
                     "type": "Button",
                     "id": "3a961f4e-44b0-455e-8dab-c406ffe9d1fe",
@@ -87,9 +96,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dodge",
+                    "name": "Dash",
                     "type": "Button",
                     "id": "00f56640-563a-41d1-8180-175f80200478",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "ed777a47-3cbe-4cf3-91da-004777ee5cfc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -100,7 +118,7 @@
                 {
                     "name": "",
                     "id": "a9ec43e0-a1fe-4ec5-8843-9669de14c2e3",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -111,11 +129,33 @@
                 {
                     "name": "",
                     "id": "54c4f34c-e55c-4697-b076-6904aad2c38f",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dodge",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "916d862d-539c-4198-972c-9df95d2e623a",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ef1c564-a3a9-497d-9022-4868f0e15b9a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

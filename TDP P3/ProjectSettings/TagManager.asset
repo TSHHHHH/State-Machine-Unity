@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Environment
+  - Character
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Enviornment
+    uniqueID: 1159064411
+    locked: 0
   - name: Gameplay
     uniqueID: 2710795991
+    locked: 0
+  - name: UI
+    uniqueID: 262897479
     locked: 0

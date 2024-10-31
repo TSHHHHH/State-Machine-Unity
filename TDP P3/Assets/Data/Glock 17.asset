@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69823e6ee07b62e41b16aa993ddf02ae, type: 3}
+  m_Name: Glock 17
+  m_EditorClassIdentifier: 
+  weaponName: Glock 17
+  weaponIcon: {fileID: 21300000, guid: ca44a2fd2f6743249a56db12c2c7bc28, type: 3}
+  damage: 2
+  fireRate: 0.5
+  bulletSpeed: 50
+  range: 5
+  reloadTime: 2
+  clipSize: 17
+  fireAngle: 10
