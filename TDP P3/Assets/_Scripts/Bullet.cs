@@ -18,6 +18,6 @@ public class Bullet : MonoBehaviour
   {
     this.damage = damage;
 
-    rb.velocity = transform.up * bulletSpeed;
+    rb.linearVelocity = transform.up * bulletSpeed;
   }
 }

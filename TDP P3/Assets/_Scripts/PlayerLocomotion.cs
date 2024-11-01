@@ -26,7 +26,7 @@ public class PlayerLocomotion : MonoBehaviour
     moveDir.Normalize();
 
     // move the player rigidbody
-    rb.velocity = moveDir * playerStats.moveSpeed;
+    rb.linearVelocity = moveDir * playerStats.moveSpeed;
   }
 
   public void HandleRotation(float dt)
