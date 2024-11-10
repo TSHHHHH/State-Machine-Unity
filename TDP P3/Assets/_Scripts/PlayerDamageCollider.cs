@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDamageCollider : MonoBehaviour
+public class PlayerDamageCollider : DamageCollider
 {
-  [SerializeField] private GameObject impactFX;
+    [SerializeField] private GameObject impactFX;
 
-  private void OnTriggerEnter2D(Collider2D collision)
-  {
-    if (impactFX != null)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-      Instantiate(impactFX, transform.position, Quaternion.identity);
-    }
+        if(collision.CompareTag("Enemy"))
+        {
+            EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
+            if (enemyStats != null) 
+            {
+                enemyStats.TakeDamage(damage);
+            }
+        }
 
-    Destroy(gameObject);
-  }
+        if (impactFX != null)
+        {
+            Instantiate(impactFX, transform.position, Quaternion.identity);
+        }
+
+        gameObject.SetActive(false);
+    }
 }

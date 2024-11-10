@@ -5,22 +5,28 @@ using UnityEngine;
 
 public class BulletShell : MonoBehaviour
 {
-  [SerializeField] private float shellSpeed;
+    [SerializeField] private float ejectAngle;
+    [SerializeField] private float shellSpeed;
 
-  private Rigidbody2D rb;
+    private Rigidbody2D rb;
 
-  private void Awake()
-  {
-    rb = GetComponent<Rigidbody2D>();
-  }
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
-  private void OnEnable()
-  {
-    rb.AddForce(transform.right * shellSpeed , ForceMode2D.Impulse);
+    public void AddEjectForce()
+    {
+        // get a random small angle for the shell to eject
+        float shellEjectAngle = Random.Range(-ejectAngle, ejectAngle);
 
-    // get a random angle for the shell to rotate
-    float shellAngle = Random.Range(-0.01f, 0.01f);
+        Vector3 shellDir = transform.right + new Vector3(0, 0, shellEjectAngle);
 
-    rb.AddTorque(shellAngle, ForceMode2D.Impulse);
-  }
+        rb.AddForce(shellDir * shellSpeed, ForceMode2D.Impulse);
+
+        // get a random angle for the shell to rotate
+        float shellAngle = Random.Range(-0.01f, 0.01f);
+
+        rb.AddTorque(shellAngle, ForceMode2D.Impulse);
+    }
 }

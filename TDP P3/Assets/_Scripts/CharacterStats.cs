@@ -51,7 +51,7 @@ public abstract class CharacterStats : MonoBehaviour
     dashTimer = 0;
   }
 
-  protected abstract void TakeDamage(int damage);
+  public abstract void TakeDamage(int damage);
 
   protected abstract void OnDeath();
 }

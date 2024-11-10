@@ -4,32 +4,39 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-  [Header("References")]
-  private InputManager inputManager;
-  private PlayerStats playerStats;
-  private PlayerLocomotion playerLocomotion;
+    [Header("References")]
+    private InputManager inputManager;
+    private PlayerStats playerStats;
+    private PlayerLocomotion playerLocomotion;
 
-  private void Awake()
-  {
-    inputManager = GetComponent<InputManager>();
-    playerStats = GetComponent<PlayerStats>();
-    playerLocomotion = GetComponent<PlayerLocomotion>();
-  }
-
-  private void Update()
-  {
-    inputManager.TickInput(Time.deltaTime);
-  }
-
-  private void FixedUpdate()
-  {
-    float dt = Time.fixedDeltaTime;
-
-    if (!playerStats.isDashing)
+    private void Awake()
     {
-      playerLocomotion.HandleMovement();
+        ServiceLocater.RegisterService<PlayerManager>(this);
+
+        inputManager = GetComponent<InputManager>();
+        playerStats = GetComponent<PlayerStats>();
+        playerLocomotion = GetComponent<PlayerLocomotion>();
     }
 
-    playerLocomotion.HandleRotation(dt);
-  }
+    private void Update()
+    {
+        inputManager.TickInput(Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        float dt = Time.fixedDeltaTime;
+
+        if (!playerStats.isDashing)
+        {
+            playerLocomotion.HandleMovement();
+        }
+
+        playerLocomotion.HandleRotation(dt);
+    }
+
+    private void OnDisable()
+    {
+        ServiceLocater.UnregisterService<PlayerManager>();
+    }
 }

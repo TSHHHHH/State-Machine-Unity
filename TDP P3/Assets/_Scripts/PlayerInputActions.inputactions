@@ -90,7 +90,7 @@
                     "name": "Shoot",
                     "type": "Button",
                     "id": "3a961f4e-44b0-455e-8dab-c406ffe9d1fe",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -99,7 +99,7 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "00f56640-563a-41d1-8180-175f80200478",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -108,7 +108,16 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "ed777a47-3cbe-4cf3-91da-004777ee5cfc",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Throw Weapon",
+                    "type": "Button",
+                    "id": "95b19673-c2b2-450f-8829-341dd9dc2da5",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -156,6 +165,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3dd10987-91b2-449e-b6e3-a742388b455a",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw Weapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

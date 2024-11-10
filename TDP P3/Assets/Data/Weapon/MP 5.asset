@@ -18,9 +18,10 @@ MonoBehaviour:
   fireRate: 0.1
   bulletSpeed: 50
   range: 5
-  reloadTime: 4
   clipSize: 30
-  fireAngle: 25
+  reloadTime: 4
+  maxSpreadAngle: 15
+  spreadRate: 2
   isAutomatic: 1
   rotationMultiplier: 0.75
   dashPowerMultiplier: 0.75

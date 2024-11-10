@@ -7,19 +7,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Weapon Data")]
 public class WeaponData : ScriptableObject
 {
-  public string weaponName;
-  public Sprite weaponIcon;
+    public string weaponName;
+    public Sprite weaponIcon;
 
-  public float damage;
-  public float fireRate;
-  public float bulletSpeed;
-  public float range;
-  public float reloadTime;
-  public int clipSize;
-  public float fireAngle;
+    public float damage;
+    public float fireRate;
+    public float bulletSpeed;
+    public float range;
 
-  public bool isAutomatic;
+    [Header("Clip Info")]
+    public int clipSize;
+    public float reloadTime;
 
-  public float rotationMultiplier = 1f;
-  public float dashPowerMultiplier = 1f;
+    [Header("Fire Spread")]
+    public float maxSpreadAngle;
+    public float spreadRate = 1f;
+
+    public bool isAutomatic;
+
+    public float rotationMultiplier = 1f;
+    public float dashPowerMultiplier = 1f;
 }

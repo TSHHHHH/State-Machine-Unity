@@ -6,21 +6,33 @@ using UnityEngine.UI;
 
 public class PlayerWeaponDisplay : MonoBehaviour
 {
-  [SerializeField] private Image weaponIcon;
-  [SerializeField] private TextMeshProUGUI ammoDisplay;
+    [SerializeField] private Image weaponFrame;
+    [SerializeField] private Image weaponIcon;
+    [SerializeField] private TextMeshProUGUI ammoDisplay;
 
-  private void Awake()
-  {
-    ServiceLocater.RegisterService<PlayerWeaponDisplay>(this);
-  }
+    private void Awake()
+    {
+        ServiceLocater.RegisterService<PlayerWeaponDisplay>(this);
+    }
 
-  public void UpdateWeaponDisplay()
-  {
+    private void OnDisable()
+    {
+        ServiceLocater.UnregisterService<PlayerWeaponDisplay>();
+    }
 
-  }
+    public void UpdateWeaponDisplay(WeaponData weaponData)
+    {
+        weaponFrame.sprite = weaponData.weaponIcon;
+        weaponIcon.sprite = weaponData.weaponIcon;
+    }
 
-  public void UpdateAmmoDisplay(WeaponData weaponData, int currentAmmoCnt)
-  {
-    ammoDisplay.text = $"{currentAmmoCnt}/{weaponData.clipSize}";
-  }
+    public void UpdateAmmoDisplay(WeaponData weaponData, int currentAmmoCnt)
+    {
+        ammoDisplay.text = $"{currentAmmoCnt}/{weaponData.clipSize}";
+    }
+
+    public void UpdateReloadDisplay(float percentage)
+    {
+        weaponIcon.fillAmount = percentage;
+    }
 }

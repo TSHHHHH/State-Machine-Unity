@@ -5,79 +5,135 @@ using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
-  [Header("References")]
-  private NavMeshAgent navMeshAgent;
-  private EnemyStats enemyStats;
-  public EnemyWeaponManager weaponManager;
+    [Header("References")]
+    private NavMeshAgent navMeshAgent;
 
-  [Header("FSM Vars")]
-  [SerializeField] private State startState;
-  private State currentState;
+    private EnemyStats enemyStats;
+    private FieldOfView fov;
+    private EnemyWeaponManager weaponManager;
 
-  private void Awake()
-  {
-    navMeshAgent = GetComponent<NavMeshAgent>();
-    enemyStats = GetComponent<EnemyStats>();
-    weaponManager = GetComponent<EnemyWeaponManager>();
-  }
+    private PlayerManager playerManager;
 
-  private void Start()
-  {
-    currentState = startState;
-  }
+    [Header("FSM Vars")]
+    [SerializeField] private State startState;
+    private State currentState;
 
-  private void Update()
-  {
-    HandleFSM();
-  }
-
-  private void HandleFSM()
-  {
-    if (currentState != null)
+    private void Awake()
     {
-      State nextState = currentState.Tick(this, enemyStats);
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
-      if (nextState != null)
-      {
-        SwitchToNextState(nextState);
-      }
+        enemyStats = GetComponent<EnemyStats>();
+        fov = GetComponent<FieldOfView>();
+        weaponManager = GetComponent<EnemyWeaponManager>();
     }
-  }
 
-  private void SwitchToNextState(State nextState)
-  {
-    if (currentState != nextState)
+    private void Start()
     {
-      currentState.OnFSMStateExit(this, enemyStats);
-      currentState = nextState;
-      currentState.OnFSMStateEnter(this, enemyStats);
+        playerManager = ServiceLocater.GetService<PlayerManager>();
+
+        currentState = startState;
+        currentState.OnFSMStateEnter(this, enemyStats);
     }
-    else
+
+    private void Update()
     {
-      currentState = nextState;
+        HandleFSM();
     }
-  }
 
-  public void EnableNavAgent()
-  {
-    if(navMeshAgent.enabled == false)
-      navMeshAgent.enabled = true;
+    private void HandleFSM()
+    {
+        if (currentState != null)
+        {
+            State nextState = currentState.Tick(this, enemyStats);
 
-    navMeshAgent.speed = enemyStats.moveSpeed;
+            if (nextState != null)
+            {
+                SwitchToNextState(nextState);
+            }
+        }
+    }
 
-    navMeshAgent.destination = enemyStats.currentTarget.position;
-  }
+    private void SwitchToNextState(State nextState)
+    {
+        if (currentState != nextState)
+        {
+            currentState.OnFSMStateExit(this, enemyStats);
+            currentState = nextState;
+            currentState.OnFSMStateEnter(this, enemyStats);
+        }
+        else
+        {
+            currentState = nextState;
+        }
+    }
 
-  public void DisableNavAgent()
-  {
-    if(navMeshAgent.enabled == true)
-      navMeshAgent.enabled = false;
+    #region Nav Agent
 
-    navMeshAgent.velocity = Vector3.zero;
-  }
+    public void EnableNavAgent()
+    {
+        if (navMeshAgent.enabled == false)
+            navMeshAgent.enabled = true;
 
-  public void Fire()
-  {
-    weaponManager.Fire();
-  }
+        navMeshAgent.speed = enemyStats.moveSpeed;
+    }
+
+    public void DisableNavAgent()
+    {
+        if (navMeshAgent.enabled == true)
+            navMeshAgent.enabled = false;
+
+        navMeshAgent.velocity = Vector3.zero;
+    }
+
+    public void UpdateNavAgentDestination(Vector3 destination)
+    {
+        navMeshAgent.destination = destination;
+    }
+
+    public void RotateWithNavAgent()
+    {
+        if (navMeshAgent.velocity != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(navMeshAgent.velocity.x, navMeshAgent.velocity.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angle));
+        }
+    }
+
+    #endregion Nav Agent
+
+    public bool HandleDetection(EnemyStats enemyStats)
+    {
+        GameObject playerObj = playerManager.gameObject;
+
+        if (fov.IsTargetInFieldOfView(playerObj.transform.position))
+        {
+            enemyStats.currentTarget = playerObj.transform;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool CheckIfInWeaponFireRange()
+    {
+        float distanceToPlayer = Vector2.Distance(transform.position, enemyStats.currentTarget.position);
+
+        // Debug.Log("Distance to player: " + distanceToPlayer);
+        // Debug.Log(weaponManager.weaponData.range);
+
+        if (distanceToPlayer <= weaponManager.weaponData.range)
+        {
+            return true;
+        }
+
+        // Debug.Log("Not in range");
+
+        return false;
+    }
+
+    public void Fire()
+    {
+        weaponManager.Fire();
+    }
 }

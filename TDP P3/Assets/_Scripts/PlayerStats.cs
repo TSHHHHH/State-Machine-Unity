@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStats : CharacterStats
 {
-  protected override void TakeDamage(int damage)
+  public override void TakeDamage(int damage)
   {
     currentHealth -= damage;
 

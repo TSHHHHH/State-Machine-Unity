@@ -2,131 +2,163 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeaponManager : MonoBehaviour
+public class PlayerWeaponManager : WeaponManager
 {
-  [Header("References")]
-  private PlayerStats playerStats;
-  private PlayerWeaponDisplay weaponDisplay;
+    [Header("References")]
+    private PlayerStats playerStats;
 
-  [SerializeField] private Transform firePoint;
-  [SerializeField] private WeaponData defaultWeapon;
-  private WeaponData currentWeapon;
-  public int currentAmmo;
-  private float fireTimer;
+    private PlayerWeaponDisplay weaponDisplay;
 
-  private bool isReloading;
-  private float reloadTimer;
+    [SerializeField] private WeaponData defaultWeapon;
 
-  [SerializeField] private GameObject bulletPrefab;
-  [SerializeField] private GameObject bulletShellPrefab;
+    //[Header("Weapon Drop")]
+    //[SerializeField] private GameObject weaponDropPrefab;
 
-  private void Awake()
-  {
-    playerStats = GetComponent<PlayerStats>();
-  }
-
-  private void Start()
-  {
-    weaponDisplay = ServiceLocater.GetService<PlayerWeaponDisplay>();
-
-    currentWeapon = defaultWeapon;
-    OnWeaponSwitch();
-  }
-
-  public void SwitchWeapon()
-  {
-
-  }
-
-  private void OnWeaponSwitch()
-  {
-    currentAmmo = currentWeapon.clipSize;
-    playerStats.rotationMultiplier = currentWeapon.rotationMultiplier;
-    playerStats.dashPowerMultiplier = currentWeapon.dashPowerMultiplier;
-
-    // update UI
-    weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
-  }
-
-  private void Update()
-  {
-    HandleFireRate();
-    HandleReload();
-  }
-
-  public void Fire()
-  {
-    if(currentAmmo > 0 && fireTimer <= 0)
+    private void Awake()
     {
-      --currentAmmo;
-
-      Quaternion fireAngle = GetFireAngle();
-
-      // create bullet object
-      GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, fireAngle);
-
-      Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-      if(bulletScript != null)
-      {
-        bulletScript.Init(currentWeapon.damage, currentWeapon.bulletSpeed);
-      }
-
-      // create bullet shell object
-      GameObject bulletShellObj = Instantiate(bulletShellPrefab, firePoint.position, fireAngle);
-
-      fireTimer = currentWeapon.fireRate;
-
-      // update UI
-      weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
-
-      if (currentAmmo <= 0)
-      {
-        StartReload();
-      }
+        playerStats = GetComponent<PlayerStats>();
     }
-  }
 
-  private Quaternion GetFireAngle()
-  {
-    float randomAngle = Random.Range(-currentWeapon.fireAngle, currentWeapon.fireAngle);
-
-    Quaternion rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + randomAngle);
-
-    return rotation;
-  }
-
-  private void StartReload()
-  {
-    isReloading = true;
-
-    reloadTimer = currentWeapon.reloadTime;
-  }
-
-  private void HandleFireRate()
-  {
-    if (fireTimer > 0)
+    protected override void Start()
     {
-      fireTimer -= Time.deltaTime;
+        base.Start();
+
+        weaponDisplay = ServiceLocater.GetService<PlayerWeaponDisplay>();
+
+        currentWeapon = defaultWeapon;
+        OnWeaponSwitch();
     }
-  }
 
-  private void HandleReload()
-  {
-    if (isReloading)
+    public void SwitchWeapon(WeaponData newWeapon)
     {
-      if (reloadTimer > 0)
-      {
-        reloadTimer -= Time.deltaTime;
-      }
-      else
-      {
+        currentWeapon = newWeapon;
+        OnWeaponSwitch();
+    }
+
+    private void OnWeaponSwitch()
+    {
+        // reset fire rate
+        fireTimer = 0f;
+
+        // reset reloading
         isReloading = false;
+        reloadTimer = 0f;
 
+        // set ammo to full
         currentAmmo = currentWeapon.clipSize;
+
+        // update player stats
+        playerStats.rotationMultiplier = currentWeapon.rotationMultiplier;
+        playerStats.dashPowerMultiplier = currentWeapon.dashPowerMultiplier;
+
+        // update UI
+        weaponDisplay.UpdateWeaponDisplay(currentWeapon);
+        weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
+    }
+
+    private void Update()
+    {
+        HandleFireRate();
+        HandleSpreadCooldown();
+        HandleReload();
+    }
+
+    public override void Fire()
+    {
+        if (currentAmmo > 0 && fireTimer <= 0)
+        {
+            isFiring = true;
+
+            --currentAmmo;
+
+            Quaternion fireAngle = GetFireAngle();
+
+            // create bullet object
+            GameObject bulletObj = poolManager.SpawnFromPool("Player Bullet", firePoint.position, fireAngle);
+
+            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+            if (bulletScript != null)
+            {
+                bulletScript.Init(currentWeapon.damage, currentWeapon.bulletSpeed);
+            }
+
+            // create bullet shell object
+            GameObject bulletShellObj = poolManager.SpawnFromPool("Bullet Shell", firePoint.position, fireAngle);
+
+            BulletShell bulletShellScript = bulletShellObj.GetComponent<BulletShell>();
+            if (bulletShellScript != null)
+            {
+                bulletShellScript.AddEjectForce();
+            }
+
+            fireTimer = currentWeapon.fireRate;
+
+            // update UI
+            weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
+        }
+        else if (currentAmmo <= 0 && !isReloading)
+        {
+            StartReload();
+        }
+    }
+
+    internal void StopFiring()
+    {
+        isFiring = false;
+    }
+
+    protected override void HandleReload()
+    {
+        if (isReloading)
+        {
+            if (reloadTimer < currentWeapon.reloadTime)
+            {
+                reloadTimer += Time.deltaTime;
+
+                // update UI
+                weaponDisplay.UpdateReloadDisplay(reloadTimer / currentWeapon.reloadTime);
+            }
+            else
+            {
+                isReloading = false;
+
+                currentAmmo = currentWeapon.clipSize;
+
+                // update UI
+                weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
+            }
+        }
+    }
+
+    public void AddAmmo(int ammo)
+    {
+        currentAmmo += ammo;
+
+        if (currentAmmo > currentWeapon.clipSize)
+        {
+            currentAmmo = currentWeapon.clipSize;
+        }
 
         // update UI
         weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
-      }
     }
-  }
+
+    // not used for now because the player may exploit this to instant reload
+    //public void ThrowWeapon()
+    //{
+    //    if(currentWeapon != defaultWeapon)
+    //    {
+    //        // create weapon pickup object
+    //        GameObject weaponPickupObj = Instantiate(weaponDropPrefab, transform.position, Quaternion.identity);
+
+    //        WeaponPickUp weaponPickupScript = weaponPickupObj.GetComponent<WeaponPickUp>();
+    //        if (weaponPickupScript != null)
+    //        {
+    //            weaponPickupScript.Init(currentWeapon);
+    //        }
+
+    //        // switch to default weapon
+    //        SwitchWeapon(defaultWeapon);
+    //    }
+    //}
 }
