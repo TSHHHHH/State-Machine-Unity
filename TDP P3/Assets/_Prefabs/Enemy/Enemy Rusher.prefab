@@ -675,7 +675,7 @@ MonoBehaviour:
     m_Bits: 64
   currentTarget: {fileID: 0}
   fleeState: {fileID: 1718345071151488826}
-  fleeHealthPercentage: 0.5
+  fleeHealthPercentage: 0.3
   weaponDropPrefab: {fileID: 7916361215356869346, guid: 4301e98d7f974f745a9de2b2a4fded4e, type: 3}
   enemyHUDPrefab: {fileID: 4680446012371528259, guid: 3b2930790df3bcc4aa9f76a8127077c3, type: 3}
   healthBarOffset: {x: 0, y: 0.5, z: 0}

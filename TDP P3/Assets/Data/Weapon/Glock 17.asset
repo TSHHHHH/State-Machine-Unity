@@ -18,7 +18,7 @@ MonoBehaviour:
   damage: 2
   fireRate: 0.5
   bulletSpeed: 50
-  range: 10
+  range: 12
   clipSize: 17
   reloadTime: 2
   maxSpreadAngle: 5

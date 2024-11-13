@@ -60,12 +60,12 @@ public class GrenadorCombatState : CombatState
         }
         else
         {
-            // reset the cooldown timer
-            throwCooldownTimer = throwCooldown;
-
             // roll a dice to see if the enemy throws a grenade
-            if (Random.Range(0, 100) < throwChance)
+            if (Random.Range(0, 100) < throwChance && enemyManager.HandleDetection())
             {
+                // reset the cooldown timer
+                throwCooldownTimer = throwCooldown;
+
                 ThrowGrenade(enemyManager, enemyStats);
             }
         }

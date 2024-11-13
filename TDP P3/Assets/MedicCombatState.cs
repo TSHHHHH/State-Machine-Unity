@@ -66,6 +66,10 @@ public class MedicCombatState : CombatState
 
             foreach (Collider2D collider in colliders)
             {
+                // skip if its itself
+                if (collider.gameObject == enemyManager.gameObject)
+                    continue;
+
                 if (collider.CompareTag("Enemy"))
                 {
                     EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
@@ -79,7 +83,7 @@ public class MedicCombatState : CombatState
                         Vector3 direction = collider.transform.position - enemyManager.transform.position;
 
                         // compute the spawn position offset from the medic
-                        Vector3 spawnPosition = enemyManager.transform.position + direction.normalized * 2;
+                        Vector3 spawnPosition = enemyManager.transform.position + direction.normalized * 1.5f;
 
                         // create a medic bag
                         GameObject medicBagObj = Instantiate(medicBagPrefab, spawnPosition, Quaternion.identity);

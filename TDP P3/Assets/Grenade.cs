@@ -3,11 +3,18 @@ using PrimeTween;
 
 public class Grenade : MonoBehaviour
 {
+    [Header("References")]
+    private MainVCam mainVCam;
+
     private Rigidbody2D rb;
 
     [Header("Grenade Vars")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private int damage = 10;
+
+    [SerializeField] private float cameraShakeStrength = 1f;
+    [SerializeField] private float cameraShakeDuration = 0.5f;
+
     [SerializeField] private GameObject explosionEffect;
 
     [Header("Debug Settings")]
@@ -16,6 +23,11 @@ public class Grenade : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        mainVCam = ServiceLocater.GetService<MainVCam>();
     }
 
     public void Init(Vector3 throwDir)
@@ -49,7 +61,7 @@ public class Grenade : MonoBehaviour
         Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
         // camera shake
-        
+        mainVCam.TriggerCameraShake(cameraShakeStrength, cameraShakeDuration);
 
         // destroy the grenade object
         Destroy(gameObject);

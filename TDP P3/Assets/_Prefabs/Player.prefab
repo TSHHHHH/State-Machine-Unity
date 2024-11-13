@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a9b45daa54ab84486df1f24be243e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 100
   currentHealth: 0
   moveSpeed: 3.5
   rotationSpeed: 10
@@ -261,6 +261,7 @@ MonoBehaviour:
   dashCooldown: 2
   dashTimer: 0
   isDashing: 0
+  invincible: 0
 --- !u!114 &8754270556807293547
 MonoBehaviour:
   m_ObjectHideFlags: 0
