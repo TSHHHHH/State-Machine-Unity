@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderKeywordFilter;
@@ -8,6 +9,7 @@ public class EnemyStats : CharacterStats
 {
     [Header("References")]
     private EnemyWeaponManager weaponManager;
+    private EnemyManager enemyManager;
 
     private PlayerManager playerManager;
 
@@ -21,6 +23,10 @@ public class EnemyStats : CharacterStats
     public LayerMask obstacleMask;
     public Transform currentTarget;
 
+    [Header("Flee Vars")]
+    [SerializeField] private FleeState fleeState;
+    [SerializeField] private float fleeHealthPercentage = 0.25f;
+
     [Header("Weapon Drop")]
     [SerializeField] private GameObject weaponDropPrefab;
 
@@ -33,6 +39,7 @@ public class EnemyStats : CharacterStats
     private void Awake()
     {
         weaponManager = GetComponent<EnemyWeaponManager>();
+        enemyManager = GetComponent<EnemyManager>();
     }
 
     protected override void Start()
@@ -47,12 +54,6 @@ public class EnemyStats : CharacterStats
     protected override void Update()
     {
         base.Update();
-
-        // update health bar position
-        if (healthBar != null)
-        {
-            healthBar.gameObject.transform.position = transform.position + healthBarOffset;
-        }
     }
 
     private void HealthBarInit()
@@ -65,6 +66,37 @@ public class EnemyStats : CharacterStats
 
         // enemy health bar should not be visible by default
         healthBar.gameObject.SetActive(false);
+    }
+
+    public override void HealFixedAmount(int healAmount)
+    {
+        currentHealth += healAmount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // update health bar
+        UpdateHealthUI();
+    }
+
+    public override void HealPercentage(float percentage)
+    {
+        currentHealth += (int)(maxHealth * percentage);
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        // update health bar
+        UpdateHealthUI();
+    }
+
+    internal bool isHealth()
+    {
+        return currentHealth >= (float)maxHealth * fleeHealthPercentage;
     }
 
     public override void TakeDamage(int damage)
@@ -103,6 +135,10 @@ public class EnemyStats : CharacterStats
         if(weaponDropPrefab != null)
             DropWeapon();
 
+        // destroy health bar
+        Destroy(healthBar.gameObject);
+
+        // destroy enemy game object in the end
         Destroy(gameObject);
     }
 

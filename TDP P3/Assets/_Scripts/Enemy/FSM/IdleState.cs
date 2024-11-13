@@ -8,7 +8,7 @@ public class IdleState : State
 {
     [Header("FSM Vars")]
     [SerializeField] private PursueState pursueState;
-
+    [SerializeField] private FleeState fleeState;
     [SerializeField] private DeathState deathState;
 
     public override void OnFSMStateEnter(EnemyManager enemyManager, EnemyStats enemyStats)
@@ -23,9 +23,14 @@ public class IdleState : State
             return deathState;
         }
 
-        if (enemyManager.HandleDetection(enemyStats))
+        if (!enemyStats.isHealth())
         {
-            Debug.Log("Player Detected");
+            return fleeState;
+        }
+
+        if (enemyManager.HandleDetection())
+        {
+            // Debug.Log("Player Detected");
 
             return pursueState;
         }

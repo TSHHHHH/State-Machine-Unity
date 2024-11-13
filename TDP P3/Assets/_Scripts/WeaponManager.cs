@@ -61,13 +61,24 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    protected void StartReload()
+    public virtual void StartReload()
     {
         isFiring = false;
 
         isReloading = true;
 
         reloadTimer = 0f;
+
+        Quaternion fireAngle = GetFireAngle();
+
+        // spawn a clip prefab
+        GameObject clipObj = Instantiate(currentWeapon.clipPrefab, firePoint.position, fireAngle);
+
+        EmptyClip emptyClip = clipObj.GetComponent<EmptyClip>();
+        if (emptyClip != null)
+        {
+            emptyClip.AddEjectForce();
+        }
     }
 
     protected Quaternion GetFireAngle()

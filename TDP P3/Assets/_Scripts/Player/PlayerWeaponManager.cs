@@ -102,6 +102,20 @@ public class PlayerWeaponManager : WeaponManager
         }
     }
 
+    public override void StartReload()
+    {
+        // if there still ammo in the clip, empty it
+        if (currentAmmo > 0)
+        {
+            currentAmmo = 0;
+
+            // update UI
+            weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
+        }
+
+        base.StartReload();
+    }
+
     internal void StopFiring()
     {
         isFiring = false;

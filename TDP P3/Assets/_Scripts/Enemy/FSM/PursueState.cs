@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatState : State
+public class PursueState : State
 {
     [Header("FSM Vars")]
-    [SerializeField] private PursueState pursueState;
+    [SerializeField] private CombatState combatState;
+    [SerializeField] private FleeState fleeState;
     [SerializeField] private DeathState deathState;
 
     public override void OnFSMStateEnter(EnemyManager enemyManager, EnemyStats enemyStats)
     {
+        enemyManager.EnableNavAgent();
+
+        enemyManager.UpdateNavAgentDestination(enemyStats.currentTarget.position);
     }
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats)
@@ -19,18 +23,16 @@ public class CombatState : State
             return deathState;
         }
 
+        if (!enemyStats.isHealth())
+        {
+            return fleeState;
+        }
+
         RotateToTarget(enemyManager, enemyStats);
 
-        enemyManager.Fire();
-
-        // if the player is too far away, return to pursue state
-        if (!enemyManager.CheckIfInWeaponFireRange())
+        if (enemyManager.CheckIfInWeaponFireRange())
         {
-            return pursueState;
-        }
-        else
-        {
-            // walk around the player
+            return combatState;
         }
 
         return this;
@@ -51,5 +53,6 @@ public class CombatState : State
 
     public override void OnFSMStateExit(EnemyManager enemyManager, EnemyStats enemyStats)
     {
+        enemyManager.DisableNavAgent();
     }
 }

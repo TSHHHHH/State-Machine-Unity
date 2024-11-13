@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Glock 17
   weaponIcon: {fileID: 21300000, guid: ca44a2fd2f6743249a56db12c2c7bc28, type: 3}
+  clipPrefab: {fileID: 4364658817006736242, guid: a31283c9cdd652a4dbc3b8ed889c66f3, type: 3}
   damage: 2
   fireRate: 0.5
   bulletSpeed: 50
-  range: 5
+  range: 10
   clipSize: 17
   reloadTime: 2
   maxSpreadAngle: 5

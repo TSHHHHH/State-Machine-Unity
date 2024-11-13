@@ -44,6 +44,8 @@ public class InputManager : MonoBehaviour
             inputActions.Actions.Shoot.started += ctx => leftMouse_input = true;
             inputActions.Actions.Shoot.canceled += ctx => leftMouse_input = false;
 
+            inputActions.Actions.Reload.performed += ctx => HandleReload();
+
             inputActions.Actions.Dash.performed += ctx => Dash();
 
             inputActions.Actions.Interact.performed += ctx => Interact();
@@ -83,6 +85,11 @@ public class InputManager : MonoBehaviour
         {
             playerWeaponManager.StopFiring();
         }
+    }
+
+    private void HandleReload()
+    {
+        playerWeaponManager.StartReload();
     }
 
     private void Dash()

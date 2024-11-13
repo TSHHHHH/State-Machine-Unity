@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 6665992895889899945}
   - component: {fileID: 3786599724992824029}
   - component: {fileID: 4904631497471936676}
-  - component: {fileID: 8426220753627640540}
-  - component: {fileID: 8287016166861790491}
-  m_Layer: 7
+  - component: {fileID: 7539046896310255289}
+  m_Layer: 0
   m_Name: Enemy Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,10 +131,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1088
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 951
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -281,7 +280,7 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &8426220753627640540
+--- !u!114 &7539046896310255289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,19 +289,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5102606624105618968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bf54ef4e29a5748968546c8af4de68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8287016166861790491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5102606624105618968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc954e0cb61d84f41aa08e0f2b3db5b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e655782ee1a0474484bb29b14fa59ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   impactFX: {fileID: 5381724334242139357, guid: c7b7889b4555ba2479b32bc980bfe3e7, type: 3}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 1088

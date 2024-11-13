@@ -6,6 +6,8 @@ public class PatrolState : State
 {
     [Header("FSM Vars")]
     [SerializeField] private PursueState pursueState;
+    [SerializeField] private FleeState fleeState;
+    [SerializeField] private DeathState deathState;
 
     [SerializeField] private List<Transform> waypoints;
     private int currentWaypointIndex = 0;
@@ -22,11 +24,21 @@ public class PatrolState : State
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats)
     {
+        if(enemyStats.isDead)
+        {
+            return deathState;
+        }
+
+        if (!enemyStats.isHealth())
+        {
+            return fleeState;
+        }
+
         HandlePatrol(enemyManager);
         enemyManager.RotateWithNavAgent();
 
         // detect player
-        if (enemyStats.currentTarget != null || enemyManager.HandleDetection(enemyStats))
+        if (enemyStats.currentTarget != null || enemyManager.HandleDetection())
         {
             return pursueState;
         }
@@ -38,6 +50,11 @@ public class PatrolState : State
 
     private void HandlePatrol(EnemyManager enemyManager)
     {
+        if(waypoints.Count <= 0)
+        {
+            return;
+        }
+
         if (ReachedWaypoint(enemyManager))
         {
             if (patrolForward)

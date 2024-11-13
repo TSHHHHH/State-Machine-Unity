@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,7 +54,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void SwitchToNextState(State nextState)
+    public void SwitchToNextState(State nextState)
     {
         if (currentState != nextState)
         {
@@ -82,6 +83,15 @@ public class EnemyManager : MonoBehaviour
         if (navMeshAgent.enabled == true)
             navMeshAgent.enabled = false;
 
+        StopNavAgent();
+    }
+    internal void SetNavAgentSpeed(float newSpeed)
+    {
+        navMeshAgent.speed = newSpeed;
+    }
+
+    public void StopNavAgent()
+    {
         navMeshAgent.velocity = Vector3.zero;
     }
 
@@ -95,13 +105,15 @@ public class EnemyManager : MonoBehaviour
         if (navMeshAgent.velocity != Vector3.zero)
         {
             float angle = Mathf.Atan2(navMeshAgent.velocity.x, navMeshAgent.velocity.y) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, -angle));
+
+            // lerp the rotation
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, -angle), Time.deltaTime * enemyStats.rotationSpeed * enemyStats.rotationMultiplier);
         }
     }
 
     #endregion Nav Agent
 
-    public bool HandleDetection(EnemyStats enemyStats)
+    public bool HandleDetection()
     {
         GameObject playerObj = playerManager.gameObject;
 

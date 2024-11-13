@@ -4,54 +4,61 @@ using UnityEngine;
 
 public abstract class CharacterStats : MonoBehaviour
 {
-  [Header("Health")]
-  public int maxHealth = 100;
-  public int currentHealth;
-  public bool isDead => currentHealth <= 0;
+    [Header("Health")]
+    public int maxHealth = 100;
 
-  [Header("Movement")]
-  public float moveSpeed = 5f;
-  public float rotationSpeed = 10f;
-  public float rotationMultiplier = 1f;
+    public int currentHealth;
+    public bool isDead => currentHealth <= 0;
 
-  [Header("Dash Settings")]
-  public float dashPower = 10f;
-  public float dashPowerMultiplier = 1f;
-  public float dashDuration = 0.15f;
-  public float dashCooldown = 2f;
-  public float totalDashCD => dashCooldown + dashDuration;
-  public float dashTimer = 0f;
-  public bool isDashing = false;
+    [Header("Movement")]
+    public float moveSpeed = 5f;
 
-  protected virtual void Start()
-  {
-    currentHealth = maxHealth;
+    public float rotationSpeed = 10f;
+    public float rotationMultiplier = 1f;
 
-    dashTimer = totalDashCD;
-  }
+    [Header("Dash Settings")]
+    public float dashPower = 10f;
 
-  protected virtual void Update()
-  {
-    if(dashTimer < totalDashCD)
+    public float dashPowerMultiplier = 1f;
+    public float dashDuration = 0.15f;
+    public float dashCooldown = 2f;
+    public float totalDashCD => dashCooldown + dashDuration;
+    public float dashTimer = 0f;
+    public bool isDashing = false;
+
+    protected virtual void Start()
     {
-      dashTimer += Time.deltaTime;
-    }
-  }
+        currentHealth = maxHealth;
 
-  public void TriggerDash()
-  {
-    if(dashTimer < totalDashCD)
-    {
-      return;
+        dashTimer = totalDashCD;
     }
 
-    isDashing = true;
+    protected virtual void Update()
+    {
+        if (dashTimer < totalDashCD)
+        {
+            dashTimer += Time.deltaTime;
+        }
+    }
 
-    // the dash total cooldown is the sum of the dash cooldown and the dash duration
-    dashTimer = 0;
-  }
+    public void TriggerDash()
+    {
+        if (dashTimer < totalDashCD)
+        {
+            return;
+        }
 
-  public abstract void TakeDamage(int damage);
+        isDashing = true;
 
-  protected abstract void OnDeath();
+        // the dash total cooldown is the sum of the dash cooldown and the dash duration
+        dashTimer = 0;
+    }
+
+    public abstract void HealFixedAmount(int healAmount);
+
+    public abstract void HealPercentage(float percentage);
+
+    public abstract void TakeDamage(int damage);
+
+    protected abstract void OnDeath();
 }

@@ -10,6 +10,8 @@ public class WeaponData : ScriptableObject
     public string weaponName;
     public Sprite weaponIcon;
 
+    public GameObject clipPrefab;
+
     public float damage;
     public float fireRate;
     public float bulletSpeed;

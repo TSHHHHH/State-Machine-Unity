@@ -2,18 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PursueState : State
+public class CombatState : State
 {
     [Header("FSM Vars")]
-    [SerializeField] private CombatState combatState;
-
-    [SerializeField] private DeathState deathState;
+    [SerializeField] protected PursueState pursueState;
+    [SerializeField] protected FleeState fleeState;
+    [SerializeField] protected DeathState deathState;
 
     public override void OnFSMStateEnter(EnemyManager enemyManager, EnemyStats enemyStats)
     {
-        enemyManager.EnableNavAgent();
-
-        enemyManager.UpdateNavAgentDestination(enemyStats.currentTarget.position);
     }
 
     public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats)
@@ -23,17 +20,33 @@ public class PursueState : State
             return deathState;
         }
 
+        if (!enemyStats.isHealth())
+        {
+            return fleeState;
+        }
+
         RotateToTarget(enemyManager, enemyStats);
 
-        if (enemyManager.CheckIfInWeaponFireRange())
+        if(enemyManager.HandleDetection())
         {
-            return combatState;
+            enemyManager.Fire();
+        }
+
+        // if the player is too far away, return to pursue state
+        if (!enemyManager.CheckIfInWeaponFireRange())
+        {
+            return pursueState;
+        }
+        else
+        {
+            // walk around the player
+            StrafeMovement(enemyManager, enemyStats);
         }
 
         return this;
     }
 
-    private void RotateToTarget(EnemyManager enemyManager, EnemyStats enemyStats)
+    protected void RotateToTarget(EnemyManager enemyManager, EnemyStats enemyStats)
     {
         // compute direction to look at
         Vector2 playerDir = new Vector2(enemyStats.currentTarget.position.x - enemyManager.transform.position.x, enemyStats.currentTarget.position.y - enemyManager.transform.position.y);
@@ -46,8 +59,12 @@ public class PursueState : State
         enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyStats.rotationSpeed * enemyStats.rotationMultiplier * Time.deltaTime);
     }
 
+    protected virtual void StrafeMovement(EnemyManager enemyManager, EnemyStats enemyStats)
+    {
+        // the default enemy does not strafe, so the base method does nothing
+    }
+
     public override void OnFSMStateExit(EnemyManager enemyManager, EnemyStats enemyStats)
     {
-        enemyManager.DisableNavAgent();
     }
 }

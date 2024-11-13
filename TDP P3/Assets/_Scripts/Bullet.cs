@@ -5,39 +5,37 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [Header("References")]
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
-    // private DamageCollider damageCollider;
-
-    private int damage;
-    [SerializeField] private GameObject impactFX;
+    protected int damage;
+    [SerializeField] protected GameObject impactFX;
 
     [Header("Collision Vars")]
-    [SerializeField] private LayerMask collisionLayers; // Set this to include only enemy layers
-    private Vector3 lastPosition;
+    [SerializeField] protected LayerMask collisionLayers; // Set this to include only enemy layers
+    protected Vector3 lastPosition;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        // damageCollider = GetComponent<DamageCollider>();
     }
 
     public void Init(float damage, float bulletSpeed)
     {
-        // damageCollider.SetDamage((int)damage);
         this.damage = (int)damage;
 
         rb.linearVelocity = transform.up * bulletSpeed;
+
+        // update last position to ensure collision detection works
+        lastPosition = transform.position;
     }
 
-    private void Update()
+    protected void Update()
     {
         RaycastForCollision();
         lastPosition = transform.position;
     }
 
-    private void RaycastForCollision()
+    protected virtual void RaycastForCollision()
     {
         Vector3 direction = (transform.position - lastPosition).normalized;
         float distance = Vector3.Distance(transform.position, lastPosition);
@@ -59,7 +57,10 @@ public class Bullet : MonoBehaviour
                 Instantiate(impactFX, transform.position, Quaternion.identity);
             }
 
+            lastPosition = transform.position;
             gameObject.SetActive(false);
         }
+
+        // Debug.DrawLine(lastPosition, transform.position, Color.red);
     }
 }

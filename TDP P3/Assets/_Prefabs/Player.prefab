@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 8754270556807293547}
   - component: {fileID: 3847392001950184859}
   - component: {fileID: 4536759986506799279}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a9b45daa54ab84486df1f24be243e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 20
   currentHealth: 0
   moveSpeed: 3.5
   rotationSpeed: 10
@@ -287,8 +287,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7602551467441517951}
   defaultWeapon: {fileID: 11400000, guid: 0729c7473c280444298f5c16f22dabe8, type: 2}
-  currentAmmo: 0
-  weaponDropPrefab: {fileID: 7916361215356869346, guid: 4301e98d7f974f745a9de2b2a4fded4e, type: 3}
 --- !u!114 &4536759986506799279
 MonoBehaviour:
   m_ObjectHideFlags: 0
