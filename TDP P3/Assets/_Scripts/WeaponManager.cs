@@ -1,5 +1,3 @@
-using Unity.Collections.LowLevel.Unsafe;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour

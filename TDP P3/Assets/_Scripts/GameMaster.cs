@@ -32,5 +32,8 @@ public class GameMaster : MonoBehaviour
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        // reset time scale
+        Time.timeScale = 1f;
     }
 }
