@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     private InputManager inputManager;
     private PlayerStats playerStats;
     private PlayerLocomotion playerLocomotion;
+    private PlayerWeaponManager playerWeaponManager;
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class PlayerManager : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         playerStats = GetComponent<PlayerStats>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        playerWeaponManager = GetComponent<PlayerWeaponManager>();
     }
 
     private void Update()
@@ -27,6 +29,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         inputManager.TickInput(Time.deltaTime);
+
+        playerWeaponManager.UpdateSpreadFeedback();
     }
 
     private void FixedUpdate()

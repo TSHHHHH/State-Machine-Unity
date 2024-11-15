@@ -103,6 +103,14 @@ public class PlayerWeaponManager : WeaponManager
         }
     }
 
+    public void UpdateSpreadFeedback()
+    {
+        // base on the spread angle, change the color of the weapon icon
+        float spreadPercentage = currentSpread / currentWeapon.maxSpreadAngle;
+
+        weaponDisplay.UpdateSpreadFeedback(spreadPercentage);
+    }
+
     public override void StartReload()
     {
         // if there still ammo in the clip, empty it

@@ -3139,6 +3139,8 @@ MonoBehaviour:
   weaponFrame: {fileID: 1067635092}
   weaponIcon: {fileID: 985331127}
   ammoDisplay: {fileID: 72979175}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  spreadColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &892564021
 PrefabInstance:
   m_ObjectHideFlags: 0

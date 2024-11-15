@@ -288,6 +288,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7602551467441517951}
   defaultWeapon: {fileID: 11400000, guid: 0729c7473c280444298f5c16f22dabe8, type: 2}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}
+  spreadColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!114 &4536759986506799279
 MonoBehaviour:
   m_ObjectHideFlags: 0
