@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8068725593059268880}
   - component: {fileID: 1381977104449880088}
   - component: {fileID: 2293704728988767423}
-  - component: {fileID: 1906227230616695111}
+  - component: {fileID: 4841031391232506296}
   m_Layer: 9
   m_Name: Enemy Medic
   m_TagString: Enemy
@@ -358,7 +358,7 @@ MonoBehaviour:
   dashCooldown: 2
   dashTimer: 0
   isDashing: 0
-  viewDistance: 8
+  viewDistance: 6
   viewAngle: 80
   closeViewDistance: 1.5
   closeViewPuffSize: 0.3
@@ -394,6 +394,7 @@ MonoBehaviour:
   viewMeshFilterCloseView: {fileID: 6179035294992313958}
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+  isDebugMode: 1
 --- !u!114 &2293704728988767423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,8 +408,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7194821063681067655}
-  _weaponData: {fileID: 11400000, guid: 0729c7473c280444298f5c16f22dabe8, type: 2}
---- !u!114 &1906227230616695111
+  _weaponData: {fileID: 11400000, guid: 66b052dd9d900274a98641e8a2e5e2a7, type: 2}
+--- !u!114 &4841031391232506296
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -417,10 +418,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 891706412109918841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b18a7105932586446b9a0a5b31b18531, type: 3}
+  m_Script: {fileID: 11500000, guid: eb7814716e411214c9914c95695cfde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startState: {fileID: 7265492318390577319}
+  medicBagPrefab: {fileID: 4421661827758221349, guid: 4d7364c096fda5b42baa9a67aaae9dca, type: 3}
+  monitorLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  monitorHealthPercentage: 0.5
+  monitorDistance: 7
+  medicBagCooldown: 3.5
+  isDebugMode: 1
 --- !u!1 &968377838733256595
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215845a970bcdb34a9b5e36a7db6e5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleState: {fileID: 7265492318390577319}
   pursueState: {fileID: 4007739276593219932}
   fleeState: {fileID: 7834664109542358372}
   deathState: {fileID: 1309884481055456993}
@@ -598,14 +608,6 @@ MonoBehaviour:
   pursueState: {fileID: 4007739276593219932}
   fleeState: {fileID: 7834664109542358372}
   deathState: {fileID: 1309884481055456993}
-  medicBagPrefab: {fileID: 4421661827758221349, guid: 4d7364c096fda5b42baa9a67aaae9dca, type: 3}
-  monitorLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  monitorHealthPercentage: 0.5
-  monitorDistance: 6
-  medicBagCooldown: 5
-  isDebugMode: 1
 --- !u!1 &3800632521293645023
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,6 +780,7 @@ MonoBehaviour:
   pursueState: {fileID: 4007739276593219932}
   fleeState: {fileID: 7834664109542358372}
   deathState: {fileID: 1309884481055456993}
+  rotationAngle: 30
 --- !u!1 &5422389189036286163
 GameObject:
   m_ObjectHideFlags: 0

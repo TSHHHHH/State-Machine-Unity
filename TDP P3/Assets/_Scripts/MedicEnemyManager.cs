@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MedicCombatState : CombatState
+public class MedicEnemyManager : EnemyManager
 {
     [Header("Medic Vars")]
     [SerializeField] private GameObject medicBagPrefab;
@@ -12,48 +12,19 @@ public class MedicCombatState : CombatState
     [SerializeField] private float medicBagCooldown = 5f;
     private float medicBagTimer = 0f;
 
-
     [Header("Debug Settings")]
     [SerializeField] private bool isDebugMode = false;
 
-    public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats)
+    protected override void Update()
     {
-        if (enemyStats.isDead)
-        {
-            return deathState;
-        }
+        base.Update();
 
-        if (!enemyStats.isHealth())
-        {
-            return fleeState;
-        }
-
-        RotateToTarget(enemyManager, enemyStats);
-
-        if (enemyManager.HandleDetection())
-        {
-            enemyManager.Fire();
-        }
-
-        // if the player is too far away, return to pursue state
-        if (!enemyManager.CheckIfInWeaponFireRange())
-        {
-            return pursueState;
-        }
-        else
-        {
-            // walk around the player
-            StrafeMovement(enemyManager, enemyStats);
-        }
-
-        HandleMedicBagLogic(enemyManager);
-
-        return this;
+        HandleMedicBagLogic();
     }
 
-    private void HandleMedicBagLogic(EnemyManager enemyManager)
+    private void HandleMedicBagLogic()
     {
-        if(medicBagTimer > 0)
+        if (medicBagTimer > 0)
         {
             medicBagTimer -= Time.deltaTime;
         }
@@ -62,12 +33,12 @@ public class MedicCombatState : CombatState
             medicBagTimer = medicBagCooldown;
 
             // cast a sphere to check if there are any enemy allies in need of healing
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(enemyManager.transform.position, monitorDistance, monitorLayer);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, monitorDistance, monitorLayer);
 
             foreach (Collider2D collider in colliders)
             {
                 // skip if its itself
-                if (collider.gameObject == enemyManager.gameObject)
+                if (collider.gameObject == gameObject)
                     continue;
 
                 if (collider.CompareTag("Enemy"))
@@ -80,17 +51,17 @@ public class MedicCombatState : CombatState
                     if (enemyStats.currentHealth <= enemyStats.maxHealth * monitorHealthPercentage)
                     {
                         // get the direction to the ally
-                        Vector3 direction = collider.transform.position - enemyManager.transform.position;
+                        Vector3 direction = collider.transform.position - transform.position;
 
                         // compute the spawn position offset from the medic
-                        Vector3 spawnPosition = enemyManager.transform.position + direction.normalized * 1.5f;
+                        Vector3 spawnPosition = transform.position + direction.normalized * 1.5f;
 
                         // create a medic bag
                         GameObject medicBagObj = Instantiate(medicBagPrefab, spawnPosition, Quaternion.identity);
                         MedicBag medicBag = medicBagObj.GetComponent<MedicBag>();
 
                         // compute the distance between the medic and the ally
-                        float distance = Vector2.Distance(enemyManager.transform.position, collider.transform.position);
+                        float distance = Vector2.Distance(transform.position, collider.transform.position);
 
                         float speed = distance / 2f;
 

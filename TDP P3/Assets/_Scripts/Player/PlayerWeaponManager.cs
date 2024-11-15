@@ -53,6 +53,7 @@ public class PlayerWeaponManager : WeaponManager
 
         // update UI
         weaponDisplay.UpdateWeaponDisplay(currentWeapon);
+        weaponDisplay.UpdateReloadDisplay(currentAmmo/currentWeapon.clipSize);
         weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
     }
 

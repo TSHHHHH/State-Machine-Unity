@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215845a970bcdb34a9b5e36a7db6e5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleState: {fileID: 6641248288766939925}
   pursueState: {fileID: 6525395893417411330}
   fleeState: {fileID: 1718345071151488826}
   deathState: {fileID: 5222627678998556470}
@@ -699,6 +700,7 @@ MonoBehaviour:
   viewMeshFilterCloseView: {fileID: 82765383200839228}
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+  isDebugMode: 0
 --- !u!114 &730835054959406266
 MonoBehaviour:
   m_ObjectHideFlags: 0

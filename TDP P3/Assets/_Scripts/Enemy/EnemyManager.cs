@@ -7,17 +7,17 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 {
     [Header("References")]
-    private NavMeshAgent navMeshAgent;
+    protected NavMeshAgent navMeshAgent;
 
-    private EnemyStats enemyStats;
-    private FieldOfView fov;
-    private EnemyWeaponManager weaponManager;
+    protected EnemyStats enemyStats;
+    protected FieldOfView fov;
+    protected EnemyWeaponManager weaponManager;
 
-    private PlayerManager playerManager;
+    protected PlayerManager playerManager;
 
     [Header("FSM Vars")]
-    [SerializeField] private State startState;
-    private State currentState;
+    [SerializeField] protected State startState;
+    protected State currentState;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
         currentState.OnFSMStateEnter(this, enemyStats);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         HandleFSM();
     }

@@ -135,6 +135,7 @@ MonoBehaviour:
   pursueState: {fileID: 5546901988953807872}
   fleeState: {fileID: 1805205014656737551}
   deathState: {fileID: 5943050569448704434}
+  rotationAngle: 30
 --- !u!1 &1915225236801859042
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215845a970bcdb34a9b5e36a7db6e5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleState: {fileID: 928266583839133947}
   pursueState: {fileID: 5546901988953807872}
   fleeState: {fileID: 1805205014656737551}
   deathState: {fileID: 5943050569448704434}
@@ -318,7 +320,7 @@ MonoBehaviour:
   combatState: {fileID: 2559893169516381587}
   deathState: {fileID: 5943050569448704434}
   moveSpeedMultiplier: 0.5
-  fleeDistance: 10
+  fleeDistance: 20
   obstacleDetectionRadius: 1
   maxAttempts: 50
   medicBagDetectionRadius: 5
@@ -595,9 +597,9 @@ MonoBehaviour:
   dashCooldown: 2
   dashTimer: 0
   isDashing: 0
-  viewDistance: 5
-  viewAngle: 60
-  closeViewDistance: 1
+  viewDistance: 7.5
+  viewAngle: 70
+  closeViewDistance: 1.5
   closeViewPuffSize: 0.5
   targetMask:
     serializedVersion: 2
@@ -607,7 +609,7 @@ MonoBehaviour:
     m_Bits: 64
   currentTarget: {fileID: 0}
   fleeState: {fileID: 0}
-  fleeHealthPercentage: 0.25
+  fleeHealthPercentage: 0.5
   weaponDropPrefab: {fileID: 7916361215356869346, guid: 4301e98d7f974f745a9de2b2a4fded4e, type: 3}
   enemyHUDPrefab: {fileID: 4680446012371528259, guid: 3b2930790df3bcc4aa9f76a8127077c3, type: 3}
   healthBarOffset: {x: 0, y: 0.5, z: 0}
@@ -631,6 +633,7 @@ MonoBehaviour:
   viewMeshFilterCloseView: {fileID: 840177306455169922}
   edgeResolveIterations: 4
   edgeDstThreshold: 0.5
+  isDebugMode: 1
 --- !u!114 &7750565767473791160
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : CharacterStats
 {
     [Header("References")]
+    private GameMaster gameMaster;
     private HUDManager hudManager;
 
     [SerializeField] private bool invincible = false;
@@ -13,6 +14,7 @@ public class PlayerStats : CharacterStats
     {
         base.Start();
 
+        gameMaster = ServiceLocater.GetService<GameMaster>();
         hudManager = ServiceLocater.GetService<HUDManager>();
 
         hudManager.UpdatePlayerHealthBar((float)currentHealth / maxHealth);
@@ -63,6 +65,18 @@ public class PlayerStats : CharacterStats
     {
         currentHealth = 0;
 
-        // TODO: end of game
+        // end of game
+        StartCoroutine(DeathTransition());
+    }
+
+    private IEnumerator DeathTransition()
+    {
+        // pause the game by setting the time scale to 0
+        Time.timeScale = 0f;
+
+        // wait for a few seconds before restarting the game
+        yield return new WaitForSeconds(3f);
+
+        gameMaster.ReloadScene();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PatrolState : State
 {
     [Header("FSM Vars")]
+    [SerializeField] private IdleState idleState;
     [SerializeField] private PursueState pursueState;
     [SerializeField] private FleeState fleeState;
     [SerializeField] private DeathState deathState;
@@ -32,6 +33,12 @@ public class PatrolState : State
         if (!enemyStats.isHealth())
         {
             return fleeState;
+        }
+
+        // if there are no waypoints, return to idle state instead
+        if (waypoints.Count <= 0)
+        {
+            return idleState;
         }
 
         HandlePatrol(enemyManager);

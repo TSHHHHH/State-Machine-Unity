@@ -20,6 +20,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        // if player is dead, do not accept input
+        if (playerStats.isDead)
+        {
+            return;
+        }
+
         inputManager.TickInput(Time.deltaTime);
     }
 
