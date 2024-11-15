@@ -72,10 +72,10 @@ public class PlayerStats : CharacterStats
     private IEnumerator DeathTransition()
     {
         // pause the game by setting the time scale to 0
-        Time.timeScale = 0f;
+        Time.timeScale = 0.1f;
 
         // wait for a few seconds before restarting the game
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSecondsRealtime(3f);
 
         gameMaster.ReloadScene();
     }

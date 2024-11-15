@@ -190,5 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionRadius: 5
   damage: 10
+  cameraShakeStrength: 2
+  cameraShakeDuration: 0.5
   explosionEffect: {fileID: 2259772850753392591, guid: c2b1475811156fe4c9ea207f9dc39695, type: 3}
   debugMode: 0
