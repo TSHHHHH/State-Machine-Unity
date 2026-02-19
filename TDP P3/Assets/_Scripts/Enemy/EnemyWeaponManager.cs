@@ -16,6 +16,7 @@ public class EnemyWeaponManager : WeaponManager
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         enemyStats = GetComponent<EnemyStats>();
     }
 

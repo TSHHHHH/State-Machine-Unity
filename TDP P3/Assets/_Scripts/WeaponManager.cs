@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class WeaponManager : MonoBehaviour
 {
     [Header("References")]
+    protected AudioSource audioSource;
     protected PoolManager poolManager;
 
     [SerializeField] protected Transform firePoint;
@@ -17,6 +19,11 @@ public class WeaponManager : MonoBehaviour
     protected int currentAmmo;
     protected bool isReloading;
     protected float reloadTimer;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     protected virtual void Start()
     {
@@ -51,6 +58,15 @@ public class WeaponManager : MonoBehaviour
                 bulletShellScript.AddEjectForce();
             }
 
+            // play fire sound
+            AudioClip fireSound = currentWeapon.fireSound;
+            if (fireSound != null && audioSource != null)
+            {
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
+                audioSource.volume = Random.Range(0.5f, 0.8f);
+                audioSource.PlayOneShot(fireSound);
+            }
+
             fireTimer = currentWeapon.fireRate;
         }
         else if (currentAmmo <= 0 && !isReloading)
@@ -62,16 +78,12 @@ public class WeaponManager : MonoBehaviour
     public virtual void StartReload()
     {
         isFiring = false;
-
         isReloading = true;
-
         reloadTimer = 0f;
 
+        // spawn a clip prefab and throw it out in an angle
         Quaternion fireAngle = GetFireAngle();
-
-        // spawn a clip prefab
         GameObject clipObj = Instantiate(currentWeapon.clipPrefab, firePoint.position, fireAngle);
-
         EmptyClip emptyClip = clipObj.GetComponent<EmptyClip>();
         if (emptyClip != null)
         {

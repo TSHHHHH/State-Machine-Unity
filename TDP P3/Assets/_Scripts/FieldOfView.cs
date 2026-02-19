@@ -7,20 +7,20 @@ public class FieldOfView : MonoBehaviour
     [Header("References")]
     public EnemyStats enemyStats;
 
-    //public float viewRadius;
+    public float viewRadius;
 
-    //[Range(0, 360)]
-    //public float viewAngle;
+    [Range(0, 360)]
+    public float viewAngle;
 
-    //public float closeViewRadius;
-    //public float closeViewPuffSize;
+    public float closeViewRadius;
+    public float closeViewPuffSize;
 
-    //public LayerMask targetMask;
-    //public LayerMask obstacleMask;
-    //public LayerMask coverMask;
+    public LayerMask targetMask;
+    public LayerMask obstacleMask;
+    public LayerMask coverMask;
 
     [HideInInspector] public List<Transform> visibleTargets = new List<Transform>();
-    //[HideInInspector] public List<Transform> visibleCovers = new List<Transform>();
+    [HideInInspector] public List<Transform> visibleCovers = new List<Transform>();
 
     [Header("FOV Mesh Settings")]
     public float meshResolution;
@@ -130,32 +130,32 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    //private void FindVisibleCovers()
-    //{
-    //  // Clear the list of visible covers
-    //  visibleCovers.Clear();
+    private void FindVisibleCovers()
+    {
+        // Clear the list of visible covers
+        visibleCovers.Clear();
 
-    //  Collider2D[] coversInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, coverMask);
+        Collider2D[] coversInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, coverMask);
 
-    //  foreach (Collider2D cover in coversInViewRadius)
-    //  {
-    //    Transform coverTransform = cover.transform;
-    //    Vector3 dirToCover = (coverTransform.position - transform.position).normalized;
+        foreach (Collider2D cover in coversInViewRadius)
+        {
+            Transform coverTransform = cover.transform;
+            Vector3 dirToCover = (coverTransform.position - transform.position).normalized;
 
-    //    // Check if the cover is within the view angle or within the close view radius
-    //    if (Vector3.Angle(transform.up, dirToCover) < viewAngle / 2 || IsWithinCloseView(coverTransform))
-    //    {
-    //      // Check if the cover is within the view radius
-    //      float dstToCover = Vector3.Distance(transform.position, coverTransform.position);
+            // Check if the cover is within the view angle or within the close view radius
+            if (Vector3.Angle(transform.up, dirToCover) < viewAngle / 2 || IsWithinCloseView(coverTransform))
+            {
+                // Check if the cover is within the view radius
+                float dstToCover = Vector3.Distance(transform.position, coverTransform.position);
 
-    //      // Check if the cover is not obstructed by any obstacles
-    //      if (!Physics2D.Raycast(transform.position, dirToCover, dstToCover, obstacleMask))
-    //      {
-    //        visibleCovers.Add(coverTransform);
-    //      }
-    //    }
-    //  }
-    //}
+                // Check if the cover is not obstructed by any obstacles
+                if (!Physics2D.Raycast(transform.position, dirToCover, dstToCover, obstacleMask))
+                {
+                    visibleCovers.Add(coverTransform);
+                }
+            }
+        }
+    }
 
     private bool IsWithinCloseView(Transform targetTransform)
     {

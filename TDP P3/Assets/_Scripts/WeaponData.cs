@@ -17,6 +17,12 @@ public class WeaponData : ScriptableObject
     public float bulletSpeed;
     public float range;
 
+    [Header("Sound Effects")]
+    public AudioClip fireSound;
+    public AudioClip reloadSound_Start;
+    public AudioClip reloadSound_End;
+    public AudioClip reloadSound_Rack; // if start reloading when clip is empty, play additional rack sound effect after reload ends
+
     [Header("Clip Info")]
     public int clipSize;
     public float reloadTime;

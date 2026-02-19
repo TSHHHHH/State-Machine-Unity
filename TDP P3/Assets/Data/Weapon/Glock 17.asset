@@ -19,6 +19,10 @@ MonoBehaviour:
   fireRate: 0.5
   bulletSpeed: 50
   range: 12
+  fireSound: {fileID: 8300000, guid: 0bffb3b82bc95cd46930eb2e73df9367, type: 3}
+  reloadSound_Start: {fileID: 8300000, guid: 53915f14acfab034bae172b644aba217, type: 3}
+  reloadSound_End: {fileID: 8300000, guid: cabb31503cc62dd4abccb51975543f7e, type: 3}
+  reloadSound_Rack: {fileID: 8300000, guid: c5269fc6a1959274b8ec4cdfb4686b68, type: 3}
   clipSize: 17
   reloadTime: 2
   maxSpreadAngle: 5

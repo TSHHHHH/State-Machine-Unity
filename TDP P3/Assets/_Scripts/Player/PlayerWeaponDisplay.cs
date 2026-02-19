@@ -43,7 +43,7 @@ public class PlayerWeaponDisplay : MonoBehaviour
 
     internal void UpdateSpreadFeedback(float spreadPercentage)
     {
-        Debug.Log(spreadPercentage);
+        // Debug.Log(spreadPercentage);
 
         // set the color of the weapon icon based on the spread percentage
         weaponIcon.color = Color.Lerp(defaultColor, spreadColor, spreadPercentage);

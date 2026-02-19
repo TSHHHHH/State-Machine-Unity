@@ -6,7 +6,6 @@ public class PlayerWeaponManager : WeaponManager
 {
     [Header("References")]
     private PlayerStats playerStats;
-
     private PlayerWeaponDisplay weaponDisplay;
 
     [SerializeField] private WeaponData defaultWeapon;
@@ -14,8 +13,11 @@ public class PlayerWeaponManager : WeaponManager
     //[Header("Weapon Drop")]
     //[SerializeField] private GameObject weaponDropPrefab;
 
+    private bool isEmptyReload = false;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         playerStats = GetComponent<PlayerStats>();
     }
 
@@ -76,7 +78,6 @@ public class PlayerWeaponManager : WeaponManager
 
             // create bullet object
             GameObject bulletObj = poolManager.SpawnFromPool("Player Bullet", firePoint.position, fireAngle);
-
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             if (bulletScript != null)
             {
@@ -85,7 +86,6 @@ public class PlayerWeaponManager : WeaponManager
 
             // create bullet shell object
             GameObject bulletShellObj = poolManager.SpawnFromPool("Bullet Shell", firePoint.position, fireAngle);
-
             BulletShell bulletShellScript = bulletShellObj.GetComponent<BulletShell>();
             if (bulletShellScript != null)
             {
@@ -93,6 +93,15 @@ public class PlayerWeaponManager : WeaponManager
             }
 
             fireTimer = currentWeapon.fireRate;
+
+            // play fire sound
+            AudioClip fireSound = currentWeapon.fireSound;
+            if (fireSound != null && audioSource != null)
+            {
+                audioSource.pitch = Random.Range(0.95f, 1.05f);
+                audioSource.volume = Random.Range(0.8f, 1f);
+                audioSource.PlayOneShot(fireSound);
+            }
 
             // update UI
             weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
@@ -113,6 +122,9 @@ public class PlayerWeaponManager : WeaponManager
 
     public override void StartReload()
     {
+        // if reload with empty clip, notify the reload function to play additional rack sound effect after reload ends
+        isEmptyReload = currentAmmo == 0;
+
         // if there still ammo in the clip, empty it
         if (currentAmmo > 0)
         {
@@ -122,7 +134,26 @@ public class PlayerWeaponManager : WeaponManager
             weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);
         }
 
+        // play reload sound
+        AudioClip reloadSfx = currentWeapon.reloadSound_Start;
+        if (reloadSfx != null && audioSource != null)
+        {
+            AudioSource.PlayClipAtPoint(reloadSfx, transform.position);
+        }
+        // play the end sound effect at the 10% mark of the reload time
+        float reloadEndSfxDelay = currentWeapon.reloadTime * 0.9f;
+        Invoke(nameof(PlayReloadEndSfx), reloadEndSfxDelay);
+
         base.StartReload();
+    }
+
+    private void PlayReloadEndSfx()
+    {
+        AudioClip reloadEndSfx = currentWeapon.reloadSound_End;
+        if (reloadEndSfx != null && audioSource != null)
+        {
+            AudioSource.PlayClipAtPoint(reloadEndSfx, transform.position);
+        }
     }
 
     internal void StopFiring()
@@ -146,6 +177,18 @@ public class PlayerWeaponManager : WeaponManager
                 isReloading = false;
 
                 currentAmmo = currentWeapon.clipSize;
+
+                // play rack sound effect if it's an empty reload
+                if (isEmptyReload)
+                {
+                    AudioClip rackSfx = currentWeapon.reloadSound_Rack;
+                    if (rackSfx != null)
+                    {
+                        AudioSource.PlayClipAtPoint(rackSfx, transform.position);
+                    }
+                }
+                // reset empty reload flag
+                isEmptyReload = false;
 
                 // update UI
                 weaponDisplay.UpdateAmmoDisplay(currentWeapon, (int)currentAmmo);

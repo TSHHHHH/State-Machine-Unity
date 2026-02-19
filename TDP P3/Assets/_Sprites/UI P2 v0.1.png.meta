@@ -166,6 +166,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -622,7 +635,27 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI P2 v0.1_0: 6937121067870783660
+      UI P2 v0.1_1: -3925924574897205467
+      UI P2 v0.1_10: 5371985618618611082
+      UI P2 v0.1_11: -6229342753246746414
+      UI P2 v0.1_12: 7073505559374787303
+      UI P2 v0.1_13: 8804385780501668493
+      UI P2 v0.1_14: -1857078651607742392
+      UI P2 v0.1_15: 8190020812336345984
+      UI P2 v0.1_16: 9069476787883345674
+      UI P2 v0.1_17: -693538948536527558
+      UI P2 v0.1_18: 6166925271932733177
+      UI P2 v0.1_19: 4122504343582807737
+      UI P2 v0.1_2: -4723625681346227989
+      UI P2 v0.1_3: -8000578507908603838
+      UI P2 v0.1_4: 5453202196200322164
+      UI P2 v0.1_5: -5359145265176297760
+      UI P2 v0.1_6: 2445536865286605408
+      UI P2 v0.1_7: 1463933927095415034
+      UI P2 v0.1_8: 9049659044182773515
+      UI P2 v0.1_9: 506111040850641422
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
