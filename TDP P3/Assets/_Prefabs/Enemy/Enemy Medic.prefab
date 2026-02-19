@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daaa96368f721247a5e48a5b22099b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 30
   currentHealth: 0
   moveSpeed: 2
   rotationSpeed: 5
@@ -546,9 +546,9 @@ MonoBehaviour:
   monitorLayer:
     serializedVersion: 2
     m_Bits: 512
-  monitorHealthPercentage: 0.5
-  monitorDistance: 7
-  medicBagCooldown: 3.5
+  monitorHealthPercentage: 0.65
+  monitorDistance: 11
+  medicBagCooldown: 2
   isDebugMode: 1
 --- !u!1 &968377838733256595
 GameObject:

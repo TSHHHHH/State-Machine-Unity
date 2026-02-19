@@ -63,7 +63,7 @@ public class WeaponManager : MonoBehaviour
             if (fireSound != null && audioSource != null)
             {
                 audioSource.pitch = Random.Range(0.95f, 1.05f);
-                audioSource.volume = Random.Range(0.5f, 0.8f);
+                audioSource.volume = Random.Range(0.3f, 0.5f);
                 audioSource.PlayOneShot(fireSound);
             }
 
